@@ -14,15 +14,20 @@ public abstract class Server implements Runnable{
 	
 	// Needed in case of a proxy server 
 	protected boolean isProxy = false;
-	protected int expectedSequenceNumber = -1;
-	protected int chunkSize = 1024;
+	protected String knownServerIP;
+	protected int knownServerPortNumber;
 	
+	/**
+	 * Use this constructor only when you are not sure 
+	 * about port number.
+	 */
 	Server(){
 		
 		// it will expect port to be set later on
 	}
 	
 	// Constructor
+	// Prefer this one always
 	Server( int port ){
 		
 		this.port = port;
@@ -62,22 +67,5 @@ public abstract class Server implements Runnable{
 
 	public void setProxy(boolean isProxy) {
 		this.isProxy = isProxy;
-	}	
-		
-	void initializeSequenceNumber(int sequenceNumber){
-		
-		expectedSequenceNumber = sequenceNumber;
-	}
-	
-	void incrementSequenceNumber(){
-		
-		expectedSequenceNumber += chunkSize;
-	}
-	
-	int getNextExpectedSequenceNumber(){
-		
-		return expectedSequenceNumber;
-	}
-
-
+	}			
 }
