@@ -31,7 +31,7 @@ public abstract class Server implements Runnable{
 	// Prefer this one always
 	Server( int port ){
 		
-		this.port = port;
+		this.port = port;		
 	}
 	
 	@Override

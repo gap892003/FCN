@@ -13,6 +13,7 @@ public class Message implements MessageInterface{
 	// Message structure 
 	// length of data 
 	// 
+	boolean bit;
 	String data;
 	
 	/**
