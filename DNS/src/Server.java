@@ -13,10 +13,11 @@ public abstract class Server implements Runnable{
 	protected int port;
 	
 	// Needed in case of a proxy server 
-	protected boolean isProxy = false;
+	protected boolean isSlave = false;
 	protected String knownServerIP;
 	protected int knownServerPortNumber;
-	
+	MasterServerInfo backupAtSlave;
+
 	/**
 	 * Use this constructor only when you are not sure 
 	 * about port number.
@@ -62,10 +63,15 @@ public abstract class Server implements Runnable{
 	}
 
 	public boolean isProxy() {
-		return isProxy;
+		return isSlave;
 	}
 
-	public void setProxy(boolean isProxy) {
-		this.isProxy = isProxy;
-	}			
+	public void setProxy(boolean isSlave) {
+		this.isSlave = isSlave;
+	}		
+	
+	void initializeAsSlave(){
+		
+		// contact master server here 
+	}
 }

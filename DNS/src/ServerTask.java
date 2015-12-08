@@ -44,7 +44,16 @@ public class ServerTask implements Runnable{
 
 		Message request = new Message();
 		request.messageFromData( packet.getData() );		
-		Message messageToSend = processRequest( request );
+		
+		Message messageToSend = null;
+		messageToSend = cacheLookup(request); 
+				
+		// this means we could not find data in cache
+		if (messageToSend == null){
+			
+			// this will be different for all servers
+			messageToSend = processRequest( request );			
+		}
 
 		// return the response
 		byte [] dataToSend = messageToSend.messageDataToBytes();
@@ -60,6 +69,24 @@ public class ServerTask implements Runnable{
 		}
 	}
 	
+	/**
+	 * Cache lookup functionality for all servers 
+	 * 
+	 * @param reqMessage
+	 * @return response Message 
+	 */
+	Message cacheLookup( Message reqMessage ){
+				
+		DataLayer data = DataLayer.shareInstance();
+		String result = data.lookupInCache( reqMessage.data );
+	
+		if ( result  == null) return null;
+		
+		// TODO: add few things here 
+		Message response = new Message();
+		response.data = result;
+		return response;
+	}
 	
 	/**
 	 * 
