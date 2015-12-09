@@ -111,8 +111,8 @@ public class DataLayer {
 	String getNextServerToContact (String str){
 		
 		// IP:PORT,IP:PORT
-		int dotIndex = str.lastIndexOf('.');
-		String strToLookup = str.substring(dotIndex);
+		int firstDot = str.indexOf(".");
+		int lastDot = str.lastIndexOf(".");
 		String toRet;
 		switch (type) {
 		case LOCALDNS:
@@ -136,7 +136,7 @@ public class DataLayer {
 			return toRet;
 			
 		default:
-		return lookupInCache(strToLookup);
+			return null;
 		}
 	}
 }
