@@ -100,7 +100,10 @@ public class DataLayer {
 		return null;
 	}
 	
+
 	String getNextServerToContact (String str){
+		
+		// IP:PORT,IP:PORT
 		int dotIndex = str.lastIndexOf('.');
 		String strToLookup = str.substring(dotIndex);
 		return lookupInCache(strToLookup);

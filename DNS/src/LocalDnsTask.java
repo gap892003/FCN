@@ -16,12 +16,23 @@ public class LocalDnsTask extends ServerTask{
 		if (reqMessage.recursiveQuery){
 			
 			// use this area
+			
+						
 		}else{
 			
 				
 			// iterative query
 			// Following is required for local DNS as it will cache entries for TLDs 
-			String serverToContact = DataLayer.shareInstance().getNextServerToContact();
+			String serverToContact = DataLayer.shareInstance().getNextServerToContact(reqMessage.data);
+			
+			if ( serverToContact == null ){
+				
+				response = new Message();
+				response.data = "No server found!";
+				response.error = true;
+				return response;
+			}
+			
 			String [] serverInfo = serverToContact.split(":");
 			
 			boolean stop = false;

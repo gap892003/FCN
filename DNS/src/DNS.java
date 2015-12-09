@@ -14,7 +14,24 @@ public class DNS {
 	/**
 	 * main
 	 */
-	public static void main(){
+	public static void main( String args[] ){
+		
+		
+		if ( args[0].equals("-c") ){
+			
+			
+		} else if ( args[0].equals("-s") ){
+			
+			
+		}
+	}
+	
+	void startAsClient(){
+		
+		
+	}
+	
+	void startAsServer(){
 		
 		
 	}
