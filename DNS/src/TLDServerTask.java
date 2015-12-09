@@ -11,6 +11,19 @@ public class TLDServerTask extends ServerTask{
 	@Override
 	Message processRequest( Message reqMessage ){
 	 
-		return null;
+		// if TLD server comes here that means we need to
+		// forward query or give response back 
+		//forwarding query applies to only recursive mode. 
+		
+		RequestSender sender = new RequestSender( server.knownServerIP, server.knownServerPortNumber);
+		Message tempResponse = sender.sendUDP(reqMessage);
+		
+		// cache this reposne
+		if ( !tempResponse.error ){
+			
+			DataLayer.shareInstance().writeEntryInCache( tempResponse.data );
+		}
+		
+		return tempResponse;
 	}
 }

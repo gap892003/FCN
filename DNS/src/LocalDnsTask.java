@@ -38,6 +38,7 @@ public class LocalDnsTask extends ServerTask{
 				if ( !tempResponse.isReferral || tempResponse.error ){
 					
 					response = tempResponse;
+					response.qr = false;
 					stop = true;
 				}else{
 					
