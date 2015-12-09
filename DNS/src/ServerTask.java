@@ -49,6 +49,7 @@ public class ServerTask implements Runnable{
 		messageToSend = cacheLookup(request); 
 				
 		// this means we could not find data in cache
+		// we need to contact new server 
 		if (messageToSend == null){
 			
 			// this will be different for all servers
@@ -101,7 +102,7 @@ public class ServerTask implements Runnable{
 	 */
 	Message processRequest( Message reqMessage ){
 			
-		// Do something here 
+		// Do something here 		
 		Message response = new Message();		
 		return response;
 	}

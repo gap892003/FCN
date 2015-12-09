@@ -64,4 +64,10 @@ public class DataLayer {
 		// read from file here
 		return null;
 	}
+	
+	String getNextServerToContact (){
+		
+		
+		return null;
+	}
 }
