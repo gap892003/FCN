@@ -14,6 +14,7 @@ public class LocalDnsTask extends ServerTask{
 	Message processRequest( Message reqMessage ){
 		
 		Message response = null;
+		String queryString = reqMessage.data;
 		
 		if (reqMessage.recursiveQuery){
 			
@@ -24,37 +25,39 @@ public class LocalDnsTask extends ServerTask{
 			
 			// iterative query
 			// Following is required for local DNS as it will cache entries for TLDs 
-			String serverToContact = null; 
-			String queryString = null;
-			String stringToSend = reqMessage.data;
-			// first lookup
-			queryString = queryString.substring(reqMessage.data.indexOf("."));
-			serverToContact = DataLayer.shareInstance().getNextServerToContact(queryString);
-			
-			// this mean Auth is not there
-			if (serverToContact == null ){
-				
-				stringToSend = queryString;
-				queryString = queryString.substring(queryString.indexOf("."));
-				serverToContact = DataLayer.shareInstance().getNextServerToContact(queryString);
-			}
-			
-			// this means TLD is not there
-			if ( serverToContact == null ){
-				
-				stringToSend = queryString;								
-				serverToContact = server.knownServerIP + ":" + server.knownServerPortNumber;
-//				response = new Message();
-//				response.data = "No server found!";
-//				response.error = true;
-//				return response;
-			}
+//			String serverToContact = null; 
+//			String queryString = null;
+//			String stringToSend = reqMessage.data;
+//			// first lookup
+//			queryString = queryString.substring(reqMessage.data.indexOf("."));
+//			serverToContact = DataLayer.shareInstance().getNextServerToContact(queryString);
+//			
+//			// this mean Auth is not there
+//			if (serverToContact == null ){
+//				
+//				stringToSend = queryString;
+//				queryString = queryString.substring(queryString.indexOf("."));
+//				serverToContact = DataLayer.shareInstance().getNextServerToContact(queryString);
+//			}
+//			
+//			// this means TLD is not there
+//			if ( serverToContact == null ){
+//				
+//				stringToSend = queryString;								
+//				serverToContact = server.knownServerIP + ":" + server.knownServerPortNumber;
+////				response = new Message();
+////				response.data = "No server found!";
+////				response.error = true;
+////				return response;
+//			}
 			
 //			String [] serverInfo = serverToContact.split(":");			
+			String serverToContact = DataLayer.shareInstance().getNextServerToContact(queryString);
 			ArrayList<String> queue = new ArrayList<String>();
 			queue.add(serverToContact);
 
 			boolean stop = false;
+			
 			do {
 				
 				// future thing to add here is to contact array servers one by one 
@@ -75,7 +78,7 @@ public class LocalDnsTask extends ServerTask{
 				// create new request 
 				Message tempRequest = new Message();
 				tempRequest.qr = true;
-				tempRequest.data = stringToSend;
+				tempRequest.data = queryString;
 						
 				Message tempResponse = sender.sendUDP(reqMessage);
 				
