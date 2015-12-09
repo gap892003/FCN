@@ -18,6 +18,7 @@ public class LocalDnsTask extends ServerTask{
 			// use this area
 		}else{
 			
+				
 			// iterative query
 			// Following is required for local DNS as it will cache entries for TLDs 
 			String serverToContact = DataLayer.shareInstance().getNextServerToContact();
