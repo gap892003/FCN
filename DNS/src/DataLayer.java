@@ -45,10 +45,11 @@ public class DataLayer {
 	private void initialize (int port, Server.ServerType type){
 		
 		//initialize file here
-		// create a directory with name same as IP address 
+		// create a directory with name same as IP address
+		String folderName = "";
 		try {
 			this.type = type;
-			String folderName = InetAddress.getLocalHost().getHostAddress().replace(".", "_")+":"+port;
+			folderName = InetAddress.getLocalHost().getHostAddress().replace(".", "_")+":"+port;
 			File folder = new File( folderName );			
 			
 			if ( !folder.exists() ){
@@ -62,7 +63,7 @@ public class DataLayer {
 		}
 		
 		// append file should be true 
-		dataFile = new File("dataFile.txt");
+		dataFile = new File(folderName+"dataFile.txt");
 	}
 	
 	void writeEntryInCache( String str ){
