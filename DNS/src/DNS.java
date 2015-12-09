@@ -13,7 +13,7 @@ public class DNS {
 	
 	/**
 	 * main
-	 */
+	 */	
 	public static void main( String args[] ){
 		
 		
@@ -58,12 +58,15 @@ public class DNS {
 		
 		UDPServer server = null;
 		Server.ServerType type = null;
-		
+		int port= Integer.parseInt( args [args.length - 1] );		
+		server = new UDPServer( port );
+
 		if ( args[1].equals("l") ) {
 			
 			// local DNS
-			type = Server.ServerType.LOCALDNS;
-			
+			type = Server.ServerType.LOCALDNS;						
+			server.knownServerIP = args[2];
+			server.knownServerPortNumber = Integer.parseInt( args[3] );		
 		}else if ( args[1].equals("r") ) {
 			
 			// root server 
@@ -79,8 +82,6 @@ public class DNS {
 			type = Server.ServerType.AUTHORATATIVE;
 		} 
 		
-		int port= Integer.parseInt( args[2] );		
-		server = new UDPServer( port );
 		server.serverType = type ; 
 		server.start();		
 	}
