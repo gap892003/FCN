@@ -13,7 +13,7 @@ public class DataLayer {
 
 	public static DataLayer instance = null;
 	private File dataFile;
-	
+	Server.ServerType type;
 	/**
 	 * 
 	 * Method to retrieve singleton instance
@@ -37,11 +37,18 @@ public class DataLayer {
 	 */
 	private DataLayer (){
 		
+	}
+	/**
+	 * Constructor is private because we want to have
+	 * singleton instance
+	 */
+	private void initialize (int port, Server.ServerType type){
+		
 		//initialize file here
 		// create a directory with name same as IP address 
 		try {
-			
-			String folderName = InetAddress.getLocalHost().getHostAddress().replace(".", "_");
+			this.type = type;
+			String folderName = InetAddress.getLocalHost().getHostAddress().replace(".", "_")+":"+port;
 			File folder = new File( folderName );			
 			
 			if ( !folder.exists() ){
@@ -106,6 +113,30 @@ public class DataLayer {
 		// IP:PORT,IP:PORT
 		int dotIndex = str.lastIndexOf('.');
 		String strToLookup = str.substring(dotIndex);
+		String toRet;
+		switch (type) {
+		case LOCALDNS:
+			toRet = lookupInCache(str.substring(firstDot));
+			if(toRet == null)
+			{
+				toRet = lookupInCache(str.substring(lastDot));
+			}
+			return toRet;
+			
+		case ROOT:
+			toRet = lookupInCache(str.substring(lastDot));
+			return toRet;
+		
+		case TLD:
+			toRet = lookupInCache(str.substring(firstDot));
+			return toRet;
+		
+		case AUTHORATATIVE:
+			toRet = lookupInCache(str);
+			return toRet;
+			
+		default:
 		return lookupInCache(strToLookup);
+		}
 	}
 }
