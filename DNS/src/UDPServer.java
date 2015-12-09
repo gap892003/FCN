@@ -41,8 +41,27 @@ public class UDPServer extends Server {
 				DatagramPacket packet = new DatagramPacket(receivedData, receivedData.length);
 				datagramServerSocket.receive(packet);
 				Logger.log("Received UDP request");
-				ServerTask task;				
-				task = new ServerTask( packet );				
+				ServerTask task = null;	
+				
+				switch (serverType) {
+				case LOCALDNS:		
+					task = new ServerTask( packet );										
+					break;
+
+				case ROOT:					
+					break;
+
+				case TLD:					
+					break;
+
+				case AUTHORATATIVE:					
+					break;
+
+				default:
+					System.out.println("Error!");
+					return; 
+				}
+				
 				task.setServer(this); // parent object 
 				task.setTCP(false);	 // task is UDP or TCP			
 				task.processUDP(); // this makes server task sequential 

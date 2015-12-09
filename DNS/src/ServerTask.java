@@ -46,15 +46,15 @@ public class ServerTask implements Runnable{
 		request.messageFromData( packet.getData() );		
 		
 		Message messageToSend = null;
-		messageToSend = cacheLookup(request); 
+//		messageToSend = cacheLookup(request); 
 				
 		// this means we could not find data in cache
 		// we need to contact new server 
-		if (messageToSend == null){
+//		if (messageToSend == null){
 			
 			// this will be different for all servers
 			messageToSend = processRequest( request );			
-		}
+//		}
 
 		// return the response
 		byte [] dataToSend = messageToSend.messageDataToBytes();

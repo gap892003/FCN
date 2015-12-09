@@ -5,12 +5,12 @@
  * Also takes the file name where all data is stored. If file
  *  doesn't exist then creates one. 
  *    
- * @author Gaurav
+ * @author Gaurav Joshi
  *
  */
 
 public class DNS {
-
+	
 	/**
 	 * main
 	 */
@@ -19,20 +19,69 @@ public class DNS {
 		
 		if ( args[0].equals("-c") ){
 			
-			
+			startAsClient(args);
 		} else if ( args[0].equals("-s") ){
 			
-			
+			startAsServer(args);
 		}
 	}
 	
-	void startAsClient(){
+	/**
+	 * Method to start client
+	 *  
+	 * @param args
+	 */
+	public static void startAsClient( String args[] ){
 		
+		String request = null;
+		String ip = null;
+		int port = 0;
 		
+		if ( args[1].equals( "-q" ) ){
+			
+			request = args[2];			
+		}
+		
+		ip = args[2];
+		port = Integer.parseInt( args[3] );
+		Client client = new Client ( ip, port );
+		client.sendRequest(request);
 	}
 	
-	void startAsServer(){
+	/**
+	 * 
+	 * Method to start server
+	 * 
+	 * @param args
+	 */
+	public static void startAsServer( String args[] ){
 		
+		UDPServer server = null;
+		Server.ServerType type = null;
 		
+		if ( args[1].equals("l") ) {
+			
+			// local DNS
+			type = Server.ServerType.LOCALDNS;
+			
+		}else if ( args[1].equals("r") ) {
+			
+			// root server 
+			type = Server.ServerType.ROOT;
+			
+		}else if ( args[1].equals("t") ) {
+			
+			// TLD server
+			type = Server.ServerType.TLD;
+		}else if ( args[1].equals("a") ) {
+			
+			// Authoritative
+			type = Server.ServerType.AUTHORATATIVE;
+		} 
+		
+		int port= Integer.parseInt( args[2] );		
+		server = new UDPServer( port );
+		server.serverType = type ; 
+		server.start();		
 	}
 }

@@ -12,3 +12,5 @@
 /MasterServerInfo.class
 /DataLayer.class
 /Client.class
+/Server$serverType.class
+/Server$ServerType.class

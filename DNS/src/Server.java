@@ -10,6 +10,15 @@
 
 public abstract class Server implements Runnable{
 
+	enum ServerType{
+		
+		LOCALDNS,
+		AUTHORATATIVE,
+		ROOT,
+		TLD
+	}
+	
+	
 	protected int port;
 	
 	// Needed in case of a proxy server 
@@ -17,7 +26,8 @@ public abstract class Server implements Runnable{
 	protected String knownServerIP;
 	protected int knownServerPortNumber;
 	MasterServerInfo backupAtSlave;
-
+	ServerType serverType;
+	
 	/**
 	 * Use this constructor only when you are not sure 
 	 * about port number.

@@ -39,7 +39,6 @@ public class Message implements MessageInterface{
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		DataOutputStream dataOut = new DataOutputStream(out);
 		byte[] returnArr = null;
-
 		
 		try {
 			

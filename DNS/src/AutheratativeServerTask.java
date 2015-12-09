@@ -13,10 +13,19 @@ public class AutheratativeServerTask extends ServerTask {
 		// Authoratative server should bot come here 
 		// if it does that means entry is not in cache 
 		// throw error 
+		String resp  = DataLayer.shareInstance().lookupInCache(reqMessage.data);
+
 		Message response  = new Message();
-		response.qr = false;
-		response.error = true;
-		response.data = "No such domain !";		
+		if (resp == null){
+			
+			response.qr = false;
+			response.error = true;
+			response.data = "No such domain !";					
+		}else{
+			
+			response.data = resp;
+		}
+
 		return response;
 	}
 }

@@ -10,20 +10,39 @@ public class TLDServerTask extends ServerTask{
 	
 	@Override
 	Message processRequest( Message reqMessage ){
-	 
+	
+		Message response;
 		// if TLD server comes here that means we need to
 		// forward query or give response back 
 		//forwarding query applies to only recursive mode. 
-		
-		RequestSender sender = new RequestSender( server.knownServerIP, server.knownServerPortNumber);
-		Message tempResponse = sender.sendUDP(reqMessage);
-		
-		// cache this reposne
-		if ( !tempResponse.error ){
 			
-			DataLayer.shareInstance().writeEntryInCache( tempResponse.data );
+		if ( reqMessage.recursiveQuery ){
+		String serverToContact = DataLayer.shareInstance().getNextServerToContact(reqMessage.data);
+		String [] serverInfo = serverToContact.split(":");
+		RequestSender sender = new RequestSender( serverInfo[0], Integer.parseInt(serverInfo[1]) );
+		Message tempResponse = sender.sendUDP(reqMessage);
+		response = tempResponse;
+//		Future scope:
+// 		cache this reposne
+//		if ( !tempResponse.error ){
+//			
+//			DataLayer.shareInstance().writeEntryInCache( tempResponse.data );
+//		}
+		}else{
+			
+			String resp = DataLayer.shareInstance().lookupInCache(reqMessage.data);
+			response = new Message();
+			
+			if (resp != null){
+				response.isReferral = true;
+				response.data = resp;
+			}else{
+				
+				response.error = true;
+				response.data = "No match found";
+			}
 		}
 		
-		return tempResponse;
+		return response;
 	}
 }
